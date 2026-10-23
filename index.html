@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diesel Lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">DIESEL<span>LAB</span></div>
+    <div class="sub">Процедурный синтез звука дизеля — от легковушки до Wärtsilä</div>
+    <div id="audioState" class="pill">звук выключен</div>
+    <button id="btnMute" class="pill mute" title="Мгновенно заглушить весь звук">🔇 Звук выкл</button>
+  </header>
+
+  <main class="layout">
+    <section class="panel engines">
+      <h2>Двигатель</h2>
+      <div id="engineList"></div>
+      <label class="check"><input type="checkbox" id="coldStart" checked> Холодный пуск</label>
+    </section>
+
+    <section class="panel cockpit">
+      <div class="gauges">
+        <canvas id="tach"></canvas>
+        <div class="readouts">
+          <div class="lamps">
+            <span id="lampStarter" class="lamp">СТАРТЕР</span>
+            <span id="lampFuel" class="lamp">ВПРЫСК</span>
+            <span id="lampCold" class="lamp warn">ХОЛОДНЫЙ</span>
+          </div>
+          <div class="bar"><label>Топливная рейка <b id="vFuel">0%</b></label><i><em id="bFuel"></em></i></div>
+          <div class="bar" id="boostRow"><label>Наддув <b id="vBoost">0.0 бар</b></label><i><em id="bBoost"></em></i></div>
+          <div class="bar"><label>Охлаждающая жидкость <b id="vTemp">20 °C</b></label><i><em id="bTemp"></em></i></div>
+          <div class="kv"><span>Частота вспышек</span><b id="vFire">0 Гц</b></div>
+          <div class="kv"><span>Резонанс камеры</span><b id="vChamber">—</b></div>
+          <div class="kv"><span>Пик давления</span><b id="vPmax">0 бар</b></div>
+        </div>
+      </div>
+      <div class="pv-wrap">
+        <div class="pv-head"><span>Давление в цилиндре №1, p(θ)</span><span>ВМТ = 0°</span></div>
+        <canvas id="pv"></canvas>
+      </div>
+
+      <div class="model-row">
+        <span>Модель звука</span>
+        <div class="seg" id="modelSeg">
+          <button data-model="v1">v1 · первая</button>
+          <button data-model="v2" class="on">v2 · давление в цилиндре</button>
+        </div>
+        <kbd>V</kbd>
+      </div>
+
+      <div class="controls">
+        <button id="btnStart" class="big start">ПУСК</button>
+        <button id="btnStop" class="big stop">СТОП</button>
+      </div>
+
+      <div class="slider-row">
+        <label><span id="thrLabel">Педаль газа</span> <output id="thrVal">0%</output></label>
+        <input type="range" id="throttle" min="0" max="1000" value="0">
+      </div>
+      <div class="slider-row">
+        <label>Нагрузка <output id="loadVal">0%</output></label>
+        <input type="range" id="load" min="0" max="1000" value="0">
+      </div>
+      <div class="hint">Пробел — газ в пол (пока держишь) · ↑/↓ — газ · Enter — пуск · Esc — стоп · V — сменить модель звука</div>
+    </section>
+
+    <section class="panel scope">
+      <h2>Сигнал</h2>
+      <canvas id="wave"></canvas>
+      <canvas id="spectrum"></canvas>
+      <h2>Где слушаем</h2>
+      <div class="seg" id="listener"></div>
+      <h2>Микшер</h2>
+      <div id="mixer"></div>
+    </section>
+
+    <section class="panel builder">
+      <h2>Конструктор <small id="modified"></small></h2>
+      <div id="builder" class="builder-grid"></div>
+      <div id="derived" class="derived"></div>
+    </section>
+    <section class="panel export" id="exportPanel">
+      <h2>Экспорт для игр · Derail Valley (ZSounds)</h2>
+      <p class="ex-note">Набор для мода ZSounds: петля двигателя, петля под нагрузкой, пуск и останов с настройками высоты тона.
+        Игра проигрывает одну петлю и сдвигает её по высоте вслед за оборотами, поэтому звук живее всего около опорных оборотов.</p>
+      <div class="ex-grid">
+        <label>Имя набора <input id="exName" type="text" spellcheck="false"></label>
+        <label>Опорные обороты петли <input id="exRpm" type="number" min="10" step="10"></label>
+        <label>Длина петли, с <input id="exLen" type="number" min="2" max="30" step="1" value="8"></label>
+        <label>Баланс
+          <select id="exPos">
+            <option value="mixed">Смешанный</option>
+            <option value="exhaust">Выхлоп</option>
+            <option value="engine">Двигатель</option>
+          </select>
+        </label>
+        <label class="check"><input id="exStartStop" type="checkbox" checked> Пуск и останов</label>
+        <button id="exReset" class="ghost">Сбросить к пресету</button>
+      </div>
+      <div id="exInfo" class="ex-info"></div>
+      <div class="ex-actions">
+        <button id="exDownload" class="big start">⬇ Скачать .zip для ZSounds</button>
+        <button id="exPreview" class="big">▶ Прослушать петлю (как в игре)</button>
+      </div>
+      <div class="slider-row">
+        <label>Обороты в игре при прослушке <output id="exGameRpmVal">—</output></label>
+        <input type="range" id="exGameRpm" min="0" max="1000" value="0">
+      </div>
+      <div id="exStatus" class="ex-info"></div>
+    </section>
+  </main>
+
+  <script src="presets.js"></script>
+  <script src="engine-v1.js"></script>
+  <script src="engine.js"></script>
+  <script src="export.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

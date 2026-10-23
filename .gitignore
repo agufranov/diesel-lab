@@ -1,0 +1,8 @@
+# сгенерированные рендеры (пересоздаются tools/render-test.js и tools/export-test.js)
+renders/
+
+# сборка мода
+**/bin/
+**/obj/
+*.user
+.vs/
