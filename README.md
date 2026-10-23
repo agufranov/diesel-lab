@@ -47,6 +47,14 @@ Sounds/Configs/<Тип>/config_<файл>.json   minPitch / maxPitch
 Не проверено в игре: как именно Derail Valley переводит обороты в `minPitch`/`maxPitch`. Если тон «не попадает»,
 сравните с штатными значениями локомотива в редакторе конфигов ZSounds.
 
+## Мод для Derail Valley (синтез в реальном времени)
+
+[mod/](mod/README.md) — мод для Unity Mod Manager: то же ядро, перенесённое на C#, звучит прямо в игре по оборотам,
+подаче и стартеру из симуляции локомотива и заменяет штатные петли двигателя.
+Сборка: `powershell -ExecutionPolicy Bypass -File mod/build.ps1`. В игре пока не проверялся — чек-лист в [mod/README.md](mod/README.md).
+
+Сверка C# с JS: `tools/parity` (рендер одного сценария обоими ядрами, отн. ошибка ~1e-6).
+
 ## Как устроено
 
 - `engine.js` — DSP-ядро `DieselCore` и AudioWorklet-процессор. Одна функция, которая работает и в ворклете, и в Node.

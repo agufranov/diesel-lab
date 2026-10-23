@@ -61,6 +61,14 @@
       room: { size: 1.0, wet: 0.08 }, mix: { ex: 1, block: 0.9, turbo: 1.1 },
     },
     {
+      id: 'm62', group: 'Промышленные', name: 'Тепловоз М62 (14Д40)', tag: 'V12 · 2T · турбо',
+      cyl: 12, stroke: 2, bore: 230, idle: 400, max: 750, crank: 90,
+      gov: 'speed', starter: 'electric', startDelay: 1.0, inertia: 2.5,
+      turbo: 0.75, turboHz: 3800, turboLag: 2.2, pipe: 2.2, muffler: 2200,
+      knock: 0.7, mech: 0.8, uneven: 0.05, warmTau: 200,
+      room: { size: 1.0, wet: 0.08 }, mix: { ex: 1.15, block: 0.9, turbo: 0.9 },
+    },
+    {
       id: 'w32', group: 'Судовые и станционные', name: 'Wärtsilä 9L32', tag: 'R9 · 4T · 750 об/мин',
       cyl: 9, stroke: 4, bore: 320, idle: 400, max: 750, crank: 100,
       gov: 'speed', starter: 'air', startDelay: 1.5, inertia: 4,

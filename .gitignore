@@ -2,6 +2,7 @@
 renders/
 
 # сборка мода
+mod/out/
 **/bin/
 **/obj/
 *.user

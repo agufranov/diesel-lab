@@ -1,0 +1,16 @@
+{
+  "_help": "map: регулярное выражение по id ливреи локомотива → пресет из presets.json (+ override поверх пресета). id видны в окне мода (отладка) и в логе UMM. fallback: если ни одно правило не подошло, выбирается по максимальным оборотам двигателя в игре. Обороты ХХ и максимум всегда берутся из игры.",
+  "map": [
+    { "match": "DE6", "preset": "emd" },
+    { "match": "DE2", "preset": "truck", "override": { "inertia": 0.8, "pipe": 3 } },
+    { "match": "DH4", "preset": "genset" },
+    { "match": "DM3", "preset": "truck", "override": { "turbo": 0.3, "muffler": 1400 } },
+    { "match": "DM1U", "preset": "truck", "override": { "turbo": 0.2 } },
+    { "match": "M62", "preset": "m62" }
+  ],
+  "fallback": [
+    { "maxRpmBelow": 1000, "preset": "emd" },
+    { "maxRpmBelow": 1800, "preset": "genset" },
+    { "preset": "truck" }
+  ]
+}
